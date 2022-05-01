@@ -212,7 +212,7 @@ function guardar() {
         return;
     }
     // Verificar que en la entrada haya una cadena de a y b
-    if (entrada.includes('a') || entrada.includes('b')) {
+    if (entrada.includes('a') || entrada.includes('b') || entrada == '') {
         entrada = '-' + entrada + '-';
         crearCuadros(toArray(entrada));
     } else {
