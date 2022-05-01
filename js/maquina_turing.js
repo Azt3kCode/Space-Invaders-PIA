@@ -166,6 +166,10 @@ function crearCuadros(cadena) {
             if (cadena[i] == 'a') {
                 img.style.filter = 'hue-rotate(45deg)';
             }
+
+            if (cadena[i] != 'a' && cadena[i] != 'b') {
+                img.style.filter = 'hue-rotate(-90deg)';
+            }
         } 
     }
 }
@@ -182,7 +186,7 @@ async function recorrerCuadros(posicion, version) {
                 contenedor.style.transform = `translateX(${0 * -120}px)`;
             }
             resolve();
-        }, 200);
+        }, 100);
     });
     await new Promise(resolve => {
         setTimeout(() => {
@@ -194,7 +198,7 @@ async function recorrerCuadros(posicion, version) {
                 cuadro.style.backgroundColor = '#ff000077';
             }
             resolve();
-        }, 200);
+        }, 100);
     });
 }
 
@@ -206,17 +210,17 @@ async function disparo() {
         setTimeout(() => {
             
             resolve();
-        }, 200);
+        }, 225);
     });
     player.removeChild(bala);
 }
 
-function guardar() {
+async function guardar() {
     entrada = document.getElementById('entrada').value;
     // Verificar que en la entrada no haya '-'
     if (entrada.includes('-')) {
         swal('Cadena inválida', '', 'error');
-        return;
+        return -1;
     }
     // Verificar que en la entrada haya una cadena de a y b
     if (entrada.includes('a') || entrada.includes('b') || entrada == '') {
@@ -236,7 +240,10 @@ function borrar() {
 }
 
 async function validar() {
-    guardar();
+    let estado = await guardar();
+    if (estado == -1) {
+        return;
+    }
     const form = document.getElementById('form');
     form.style.opacity = '0.25';
     form.style.pointerEvents = 'none';
