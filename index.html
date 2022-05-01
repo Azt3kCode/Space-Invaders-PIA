@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Invaders | PIA</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/particles.css">
+    <!-- Insertar icono -->
+    <link rel="shortcut icon" href="img/invader.ico">
+</head>
+<body>
+    <div id="contenedor"></div>
+    <div id="player"></div>
+    <div class="page-bg"></div>
+
+    <div class="animation-wrapper">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    </div>
+
+    <div id="form" class="form">
+        <input type="text" placeholder="aabbb..." id="entrada">
+        <div class="container_buttons">
+            <button class="button" onclick="guardar()">
+                Guardar
+            </button>
+            <button class="button" onclick="borrar()">
+                Borrar
+            </button>
+            <button class="button" onclick="validar()">
+                Validar
+            </button>
+        </div>
+    </div>
+
+    <div id="load">
+        <img src="img/logo.png" alt="space invaders logo">
+    </div>
+    <script src="js/maquina_turing.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+</html>
