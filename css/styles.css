@@ -134,7 +134,7 @@ body {
 }
 
 .button {
-    width: 32%;
+    width: 100%;
     height: 50px;
     font-size: 1.2rem;
     border-radius: 25px;
@@ -143,16 +143,6 @@ body {
 }
 
 .button:nth-child(1) {
-    background-color: rgb(56, 202, 112);
-    filter: drop-shadow(0px 0px 20px rgb(56, 202, 112));
-}
-
-.button:nth-child(2) {
-    background-color: rgb(239, 71, 71);
-    filter: drop-shadow(0px 0px 20px rgb(239, 71, 71));
-}
-
-.button:nth-child(3) {
     background-color: rgb(55, 155, 255);
     filter: drop-shadow(0px 0px 20px rgb(55, 155, 255));
 }

@@ -3,7 +3,7 @@ const contenedor = document.getElementById('contenedor');
 const player = document.getElementById('player');
 
 // Ubicarnos en el primer blanco
-function q1(cadena, posicion) {
+async function q1(cadena, posicion) {
     console.log('Estado inicial');
 
     if (cadena[posicion] == '-') {
@@ -13,6 +13,7 @@ function q1(cadena, posicion) {
         return q2(cadena, posicion);
     } else {
         console.log('Error');
+        await recorrerCuadros(posicion, 3);
         swal('Cadena inválida', '', 'error');
     }
 }
@@ -38,6 +39,7 @@ async function q2(cadena, posicion) {
         return q7();
     } else {
         console.log('Error');
+        await recorrerCuadros(posicion, 3);
         swal('Cadena inválida', '', 'error');
     }
 }
@@ -73,6 +75,7 @@ async function q4(cadena, posicion) {
         console.log(cadena);
         return q5(cadena, posicion);
     } else {
+        await recorrerCuadros(posicion, 3);
         swal('Cadena inválida', '', 'error');
     }
 }
@@ -134,6 +137,10 @@ function toArray(cadena) {
 }
 
 function crearCuadros(cadena) {
+    while (contenedor.firstChild) {
+        contenedor.removeChild(contenedor.firstChild);
+    }
+
     for (let i = 0; i < cadena.length; i++) {
         const cuadro = document.createElement('div');
         cuadro.classList.add('cuadro');
@@ -229,10 +236,12 @@ function borrar() {
 }
 
 async function validar() {
+    guardar();
     const form = document.getElementById('form');
     form.style.opacity = '0.25';
     form.style.pointerEvents = 'none';
     await q1(toArray(entrada), 0);
     form.style.opacity = '1';
     form.style.pointerEvents = 'all';
+    borrar();
 }
