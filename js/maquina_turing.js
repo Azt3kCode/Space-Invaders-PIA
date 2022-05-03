@@ -6,6 +6,11 @@ const player = document.getElementById('player');
 async function q1(cadena, posicion) {
     console.log('Estado inicial');
 
+    await new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, 300);
+    });
     if (cadena[posicion] == '-') {
         contenedor.style.transform = 'translateX(0px)';
         cadena[posicion] = '-';
@@ -13,7 +18,7 @@ async function q1(cadena, posicion) {
         return q2(cadena, posicion);
     } else {
         console.log('Error');
-        await recorrerCuadros(posicion, 3);
+        await recorrerCuadros(posicion, 3, 0);
         swal('Cadena inválida', '', 'error');
     }
 }
@@ -24,22 +29,22 @@ async function q2(cadena, posicion) {
 
     posicion = posicion + 1;
     if (cadena[posicion] == 'a') {
-        await recorrerCuadros(posicion, 1);
+        await recorrerCuadros(posicion, 1, 0);
         cadena[posicion] = '-';
         console.log(cadena);
         return q3(cadena, posicion + 1);
-    } else if (cadena[posicion] == 'b') {
-        await recorrerCuadros(posicion, 1);
+    } else if (cadena[posicion] == 'b' || cadena[posicion] == 'Y') {
+        await recorrerCuadros(posicion, 1, 0);
         cadena[posicion] = '-';
         console.log(cadena);
         return q6(cadena, posicion);
     } else if (cadena[posicion] == '-') {
-        await recorrerCuadros(posicion, 1);
+        await recorrerCuadros(posicion, 1, 1);
         cadena[posicion] = '-';
         return q7();
     } else {
         console.log('Error');
-        await recorrerCuadros(posicion, 3);
+        await recorrerCuadros(posicion, 3, 0);
         swal('Cadena inválida', '', 'error');
     }
 }
@@ -50,12 +55,12 @@ async function q3(cadena, posicion) {
 
     let i = posicion;
 
-    while (cadena[i] != '-') {
-        if (cadena[i] == 'a' || cadena[i] == 'b') {
-            await recorrerCuadros(i, 2);
+    while (cadena[i] != 'b') {
+        if (cadena[i] == 'a' || cadena[i] == 'Y') {
+            await recorrerCuadros(i, 2, 0);
             i++;
         } else {
-            await recorrerCuadros(i, 3);
+            await recorrerCuadros(i, 3, 0);
             swal('Cadena inválida', '', 'error');
             return;
         }
@@ -68,14 +73,13 @@ async function q3(cadena, posicion) {
 async function q4(cadena, posicion) {
     console.log('Estado 4');
 
-    posicion = posicion - 1;
     if (cadena[posicion] == 'b') {
-        await recorrerCuadros(posicion, 1);
-        cadena[posicion] = '-';
+        await recorrerCuadros(posicion, 1, 0);
+        cadena[posicion] = 'Y';
         console.log(cadena);
         return q5(cadena, posicion);
     } else {
-        await recorrerCuadros(posicion, 3);
+        await recorrerCuadros(posicion, 3, 0);
         swal('Cadena inválida', '', 'error');
     }
 }
@@ -87,11 +91,11 @@ async function q5(cadena, posicion) {
     let i = posicion - 1;
 
     while (cadena[i] != '-') {
-        if (cadena[i] == 'a' || cadena[i] == 'b') {
-            await recorrerCuadros(i, 2);
+        if (cadena[i] == 'a' || cadena[i] == 'Y') {
+            await recorrerCuadros(i, 2, 0);
             i--;
         } else {
-            await recorrerCuadros(i, 3);
+            await recorrerCuadros(i, 3, 0);
             swal('Cadena inválida', '', 'error');
             return
         }
@@ -106,14 +110,14 @@ async function q6(cadena, posicion) {
 
     posicion = posicion + 1;
     while (cadena[posicion] != '-') {
-        if (cadena[posicion] == 'b') {
-            await recorrerCuadros(posicion, 1);
+        if (cadena[posicion] == 'b' || cadena[posicion] == 'Y') {
+            await recorrerCuadros(posicion, 1, 1);
             cadena[posicion] = '-';
             posicion++;
             console.log(cadena);
         } else {
             console.log('Error');
-            await recorrerCuadros(posicion, 3);
+            await recorrerCuadros(posicion, 3, 0);
             swal('Cadena inválida', '', 'error');
             return
         }
@@ -174,7 +178,7 @@ function crearCuadros(cadena) {
     }
 }
 
-async function recorrerCuadros(posicion, version) {
+async function recorrerCuadros(posicion, version, terminar) {
     const cuadro = document.getElementById(posicion);
     await new Promise(resolve => {
         setTimeout(() => {
@@ -186,19 +190,27 @@ async function recorrerCuadros(posicion, version) {
                 contenedor.style.transform = `translateX(${0 * -120}px)`;
             }
             resolve();
-        }, 100);
+        }, 150);
     });
     await new Promise(resolve => {
         setTimeout(() => {
-            if (version == 1 && entrada[posicion] != '-') {
-                const img = cuadro.children[1];
-                img.style.opacity = '0';
+            if (version == 1 && entrada[posicion] == 'Y') {
                 cuadro.children[0].textContent = '-';
+            } else if (version == 1 && entrada[posicion] != '-') {
+                const img = cuadro.children[1];
+                if (cuadro.children[0].textContent == 'b' && terminar == 0) {
+                    img.style.filter = 'grayscale(50%)';
+                    cuadro.children[0].textContent = 'Y';
+                    cuadro.children[0].style.color = '#0f0';
+                } else {
+                    img.style.opacity = '0';
+                    cuadro.children[0].textContent = '-';
+                }
             } else if (version == 3) {
                 cuadro.style.backgroundColor = '#ff000077';
             }
             resolve();
-        }, 100);
+        }, 150);
     });
 }
 
