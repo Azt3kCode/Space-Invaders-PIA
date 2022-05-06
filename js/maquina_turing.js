@@ -34,7 +34,7 @@ async function q2(cadena, posicion) {
         console.log(cadena);
         return q3(cadena, posicion + 1);
     } else if (cadena[posicion] == 'b' || cadena[posicion] == 'Y') {
-        await recorrerCuadros(posicion, 1, 0);
+        await recorrerCuadros(posicion, 1, 1);
         cadena[posicion] = '-';
         console.log(cadena);
         return q6(cadena, posicion);
@@ -190,7 +190,7 @@ async function recorrerCuadros(posicion, version, terminar) {
                 contenedor.style.transform = `translateX(${0 * -120}px)`;
             }
             resolve();
-        }, 150);
+        }, 100);
     });
     await new Promise(resolve => {
         setTimeout(() => {
@@ -210,7 +210,7 @@ async function recorrerCuadros(posicion, version, terminar) {
                 cuadro.style.backgroundColor = '#ff000077';
             }
             resolve();
-        }, 150);
+        }, 100);
     });
 }
 
